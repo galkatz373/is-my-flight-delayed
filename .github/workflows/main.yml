@@ -1,0 +1,31 @@
+name: schedule
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */15 * *'
+
+env:
+  EMAIL_USER: ${{ secrets.EMAIL_USER }}
+  EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+  EMAIL_TO: ${{ secrets.EMAIL_TO }}
+  FLIGHT_ID: ${{ secrets.FLIGHT_ID }}
+  FLIGHT_DATE: ${{ secrets.FLIGHT_DATE }}
+  FLIGHT_TIME: ${{ secrets.FLIGHT_TIME }}
+
+jobs:
+  Run-Schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - name: install dependencies
+        run: yarn install
+      - name: install playwright
+        run: npx playwright install-deps chromium
+      - name: run automation
+        run: yarn ci
