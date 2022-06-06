@@ -46,7 +46,7 @@ const sendEmail = async () => {
 
     const requestedDate = dayjs(process.env.FLIGHT_DATE).format('DD MMM YYYY');
     const requestedTime = dayjs(process.env.FLIGHT_TIME, 'HH:mm').format('h:mm A');
-
+    console.log(date, time);
     if (date === requestedDate && time === requestedTime) {
       if (!status.includes('gray') && !status.includes('green')) {
         await sendEmail();
